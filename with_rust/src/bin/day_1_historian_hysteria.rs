@@ -42,7 +42,7 @@ fn main() {
     let total_time_taken_start: Instant = Instant::now();
 
     let file = fs::read_to_string("../inputs/Day 1: Historian Hysteria/input.txt")
-        .expect("Failed to read file.");
+        .expect("Expecting a valid file.");
 
     let mut list_1: Vec<i32> = Vec::new();
     let mut list_2: Vec<i32> = Vec::new();
