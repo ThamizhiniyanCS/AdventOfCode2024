@@ -1,0 +1,9 @@
+
+
+left: [3, 9]
+top_left: [2, 9]
+bottom_right: [4, 11]
+[+] Part One Solution
+>>> Total Times XMAS Appeared: 2562
+
+Total Time Taken: 0.021975581999868155 seconds.
