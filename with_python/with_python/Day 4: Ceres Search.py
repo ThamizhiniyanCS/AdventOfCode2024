@@ -1,11 +1,11 @@
 import time
 
 
-def get_positions(length, i, j):
+def get_positions(no_of_columns, i, j):
     i_minus_1 = i - 1 if i - 1 >= 0 else None
-    i_plus_1 = i + 1 if i + 1 < length else None
+    i_plus_1 = i + 1 if i + 1 < no_of_columns else None
     j_minus_1 = j - 1 if j - 1 >= 0 else None
-    j_plus_1 = j + 1 if j + 1 < length else None
+    j_plus_1 = j + 1 if j + 1 < no_of_columns else None
 
     return {
         "left": [i, j_minus_1] if j_minus_1 is not None else None,
@@ -35,106 +35,127 @@ def get_positions(length, i, j):
     }
 
 
-def find_X_positions(length, content):
-    x_positions = []
-
-    for i in range(len(content)):
-        for j in range(length):
-            if content[i][j] == "X":
-                x_positions.append([i, j])
-
-    return x_positions
+def find_character_positions(no_of_rows, no_of_columns, content, character):
+    return [
+        [i, j]
+        for j in range(no_of_columns)
+        for i in range(no_of_rows)
+        if content[i][j] == character
+    ]
 
 
-def find_M_positions(length, content, i, j):
-    positions = get_positions(length, i, j)
-
-    m_positions = {}
-
-    for key, value in positions.items():
-        if value and content[value[0]][value[1]] == "M":
-            m_positions[key] = value
-
-    return m_positions
+def find_M_positions(no_of_columns, content, i, j):
+    return {
+        key: value
+        for key, value in get_positions(no_of_columns, i, j).items()
+        if value and content[value[0]][value[1]] == "M"
+    }
 
 
-def check_A(length, content, direction, i, j):
-    positions = get_positions(length, i, j)
+def check_character(no_of_columns, content, direction, i, j, character):
+    positions = get_positions(no_of_columns, i, j)
 
     if (
         positions[direction]
-        and content[positions[direction][0]][positions[direction][1]] == "A"
+        and content[positions[direction][0]][positions[direction][1]] == character
     ):
         return [positions[direction][0], positions[direction][1]]
     else:
         return False
 
 
-def check_S(length, content, direction, i, j):
-    positions = get_positions(length, i, j)
+def check_x_mas(no_of_columns, content, i, j) -> bool:
+    positions = get_positions(no_of_columns, i, j)
+
+    position_top_left = positions.get("top_left")
+    position_top_right = positions.get("top_right")
+    position_bottom_left = positions.get("bottom_left")
+    position_bottom_right = positions.get("bottom_right")
 
     if (
-        positions[direction]
-        and content[positions[direction][0]][positions[direction][1]] == "S"
+        position_top_left
+        and position_top_right
+        and position_bottom_left
+        and position_bottom_right
     ):
-        return [positions[direction][0], positions[direction][1]]
-    else:
-        return False
+        top_left = content[position_top_left[0]][position_top_left[1]]
+        top_right = content[position_top_right[0]][position_top_right[1]]
+        bottom_left = content[position_bottom_left[0]][position_bottom_left[1]]
+        bottom_right = content[position_bottom_right[0]][position_bottom_right[1]]
+
+        if (
+            (
+                top_left == "M"
+                and top_right == "S"
+                and bottom_left == "M"
+                and bottom_right == "S"
+            )
+            or (
+                top_left == "M"
+                and top_right == "M"
+                and bottom_left == "S"
+                and bottom_right == "S"
+            )
+            or (
+                top_left == "S"
+                and top_right == "S"
+                and bottom_left == "M"
+                and bottom_right == "M"
+            )
+            or (
+                top_left == "S"
+                and top_right == "M"
+                and bottom_left == "S"
+                and bottom_right == "M"
+            )
+        ):
+            return True
+
+    return False
 
 
-def part_1(content):
+def part_1(content, no_of_rows, no_of_columns):
     total_times = 0
-    length = len(content[0])
-    counter = 0
 
-    dotted_map = [["."] * length for _ in range(len(content))]
-
-    for x in find_X_positions(length, content):
-        for m_key, m_value in find_M_positions(length, content, x[0], x[1]).items():
-            result_a = check_A(length, content, m_key, m_value[0], m_value[1])
+    for x in find_character_positions(no_of_rows, no_of_columns, content, "X"):
+        for m_key, m_value in find_M_positions(
+            no_of_columns, content, x[0], x[1]
+        ).items():
+            result_a = check_character(
+                no_of_columns, content, m_key, m_value[0], m_value[1], "A"
+            )
             if result_a:
-                result_s = check_S(length, content, m_key, result_a[0], result_a[1])
-
+                result_s = check_character(
+                    no_of_columns, content, m_key, result_a[0], result_a[1], "S"
+                )
                 if result_s:
-
-                    x_position = [x[0], x[1]]
-                    m_position = [m_value[0], m_value[1]]
-                    a_position = [result_a[0], result_a[1]]
-                    s_position = [result_s[0], result_s[1]]
-
-                    dotted_map[x_position[0]][x_position[1]] = content[x_position[0]][
-                        x_position[1]
-                    ]
-                    dotted_map[m_position[0]][m_position[1]] = content[m_position[0]][
-                        m_position[1]
-                    ]
-                    dotted_map[a_position[0]][a_position[1]] = content[a_position[0]][
-                        a_position[1]
-                    ]
-                    dotted_map[s_position[0]][s_position[1]] = content[s_position[0]][
-                        s_position[1]
-                    ]
-
-                    counter += 4
-
                     total_times += 1
 
     print("[+] Part One Solution")
     print(f">>> Total Times XMAS Appeared: {total_times}")
 
 
-def part_2(content):
+def part_2(content, no_of_rows, no_of_columns):
+    total_times = 0
+
+    for a in find_character_positions(no_of_rows, no_of_columns, content, "A"):
+        if check_x_mas(no_of_columns, content, a[0], a[1]):
+            total_times += 1
 
     print("[+] Part Two Solution")
-    print(f">>> ")
+    print(f">>> Total Times X-MAS Appeared: {total_times}")
 
 
 def main():
     with open("../inputs/Day 4: Ceres Search/input.txt") as file:
         content = [line.strip() for line in file.readlines()]
+        no_of_rows = len(content)
+        no_of_columns = len(content[0])
 
         print()
-        part_1(content)
+        part_1(content, no_of_rows, no_of_columns)
+        print()
+        part_2(content, no_of_rows, no_of_columns)
 
 
 if __name__ == "__main__":
