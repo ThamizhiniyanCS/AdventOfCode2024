@@ -12,7 +12,6 @@ def sum_of_middle(valid_updates):
 
 
 def part_1(dictionary, updates):
-
     valid_updates = []
     invalid_updates = []
 
@@ -34,7 +33,7 @@ def part_1(dictionary, updates):
             invalid_updates.append(updates[i])
 
     print("[+] Part One Solution")
-    print(f">>> Sum of the results: {sum_of_middle(valid_updates)}")
+    print(f">>> Sum of middle values of valid updates: {sum_of_middle(valid_updates)}")
 
     return invalid_updates
 
@@ -53,7 +52,7 @@ def part_2(dictionary, invalid_updates):
                     valid_updates[i][j + 1] = current_value
 
     print("[+] Part Two Solution")
-    print(f">>> Sum of the results: {sum_of_middle(valid_updates)}")
+    print(f">>> Sum of middle values of valid updates: {sum_of_middle(valid_updates)}")
 
 
 def main():
