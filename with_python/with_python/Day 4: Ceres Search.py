@@ -1,9 +1,9 @@
 import time
 
 
-def get_positions(no_of_columns, i, j):
+def get_positions(no_of_rows, no_of_columns, i, j):
     i_minus_1 = i - 1 if i - 1 >= 0 else None
-    i_plus_1 = i + 1 if i + 1 < no_of_columns else None
+    i_plus_1 = i + 1 if i + 1 < no_of_rows else None
     j_minus_1 = j - 1 if j - 1 >= 0 else None
     j_plus_1 = j + 1 if j + 1 < no_of_columns else None
 
@@ -44,16 +44,16 @@ def find_character_positions(no_of_rows, no_of_columns, content, character):
     ]
 
 
-def find_M_positions(no_of_columns, content, i, j):
+def find_M_positions(no_of_rows, no_of_columns, content, i, j):
     return {
         key: value
-        for key, value in get_positions(no_of_columns, i, j).items()
+        for key, value in get_positions(no_of_rows, no_of_columns, i, j).items()
         if value and content[value[0]][value[1]] == "M"
     }
 
 
-def check_character(no_of_columns, content, direction, i, j, character):
-    positions = get_positions(no_of_columns, i, j)
+def check_character(no_of_rows, no_of_columns, content, direction, i, j, character):
+    positions = get_positions(no_of_rows, no_of_columns, i, j)
 
     if (
         positions[direction]
@@ -64,8 +64,8 @@ def check_character(no_of_columns, content, direction, i, j, character):
         return False
 
 
-def check_x_mas(no_of_columns, content, i, j) -> bool:
-    positions = get_positions(no_of_columns, i, j)
+def check_x_mas(no_of_rows, no_of_columns, content, i, j) -> bool:
+    positions = get_positions(no_of_rows, no_of_columns, i, j)
 
     position_top_left = positions.get("top_left")
     position_top_right = positions.get("top_right")
@@ -119,14 +119,20 @@ def part_1(content, no_of_rows, no_of_columns):
 
     for x in find_character_positions(no_of_rows, no_of_columns, content, "X"):
         for m_key, m_value in find_M_positions(
-            no_of_columns, content, x[0], x[1]
+            no_of_rows, no_of_columns, content, x[0], x[1]
         ).items():
             result_a = check_character(
-                no_of_columns, content, m_key, m_value[0], m_value[1], "A"
+                no_of_rows, no_of_columns, content, m_key, m_value[0], m_value[1], "A"
             )
             if result_a:
                 result_s = check_character(
-                    no_of_columns, content, m_key, result_a[0], result_a[1], "S"
+                    no_of_rows,
+                    no_of_columns,
+                    content,
+                    m_key,
+                    result_a[0],
+                    result_a[1],
+                    "S",
                 )
                 if result_s:
                     total_times += 1
@@ -139,7 +145,7 @@ def part_2(content, no_of_rows, no_of_columns):
     total_times = 0
 
     for a in find_character_positions(no_of_rows, no_of_columns, content, "A"):
-        if check_x_mas(no_of_columns, content, a[0], a[1]):
+        if check_x_mas(no_of_rows, no_of_columns, content, a[0], a[1]):
             total_times += 1
 
     print("[+] Part Two Solution")
