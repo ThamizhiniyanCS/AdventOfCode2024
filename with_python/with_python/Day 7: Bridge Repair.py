@@ -2,7 +2,7 @@ import time
 from itertools import product
 
 
-def isvalid_combo(key, value, combo, part2=False):
+def isvalid_combo(key, value, combo):
     res = 0
     operator = "+"
 
@@ -51,7 +51,7 @@ def part_2(invalid_equations, sum):
         length = len(value)
 
         for combo in product(operators, repeat=length - 1):
-            if isvalid_combo(key, value, combo, True):
+            if isvalid_combo(key, value, combo):
                 sum += key
                 break
 
