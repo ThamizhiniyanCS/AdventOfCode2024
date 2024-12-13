@@ -1,5 +1,5 @@
 import time
-from collections import Counter, OrderedDict
+from collections import Counter
 
 
 def part_1(file_system):
@@ -27,12 +27,15 @@ def part_2(file_system, character_occurances: dict):
     file_ids = [i for i in character_occurances.keys() if i != None]
 
     for id in reversed(file_ids):
+        id_start_index = file_system_copy.index(id)
+
         file_indexes = [
             i
-            for i in range(file_system_copy.index(id), len_file_system_copy)
-            if file_system_copy[i] == id
+            for i in range(
+                id_start_index,
+                id_start_index + character_occurances[id],
+            )
         ]
-        len_file_indexes = len(file_indexes)
 
         empty_spaces = []
 
@@ -40,7 +43,7 @@ def part_2(file_system, character_occurances: dict):
             if file_system_copy[i] == None:
                 empty_spaces.append(i)
             else:
-                if len(empty_spaces) >= len_file_indexes:
+                if len(empty_spaces) >= character_occurances[id]:
                     break
                 else:
                     empty_spaces = []
