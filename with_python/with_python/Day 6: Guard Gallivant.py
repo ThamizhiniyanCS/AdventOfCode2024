@@ -1,215 +1,140 @@
 import time
-from collections import defaultdict
+
+DIRECTION = "u"
+GUARD_POSITION = list()
+GUARD_POSITIONS = set()
+OBSTACLES = set()
+MAP = list()
+INITIAL_GUARD_POSITION = list()
+NO_OF_ROWS = 0
+NO_OF_COLUMNS = 0
 
 
-def part_1(
-    map,
-    no_of_rows: int,
-    no_of_columns: int,
-    obstacles: dict,
-    initial_guard_position,
-):
-    direction = "u"
-    guard_position = initial_guard_position
-    no_obstacle = True
-    guard_positions = set()
-    guard_positions.add(f"{initial_guard_position[0]}_{initial_guard_position[1]}")
-    exit_position = []
-    is_loop = False
-    map_guard_positions = [initial_guard_position]
+def up():
+    global DIRECTION, GUARD_POSITION, GUARD_NEXT_POSITION, OBSTACLES
 
-    counter = 0
+    if (GUARD_POSITION[0] - 1, GUARD_POSITION[1]) not in OBSTACLES:
+        GUARD_POSITION = [GUARD_POSITION[0] - 1, GUARD_POSITION[1]]
+    else:
+        DIRECTION = "r"
+        GUARD_NEXT_POSITION = [GUARD_POSITION[0], GUARD_POSITION[1] + 1]
 
-    while no_obstacle and counter < 50:
-        print(f"Counter: {counter}")
-        print(f"Direction: {direction}")
-        print(f"Guard Position: {guard_position}")
 
-        if direction == "u":
-            if guard_position[0] == 0:
-                exit_position = guard_position
-                no_obstacle = False
-                break
+def right():
+    global DIRECTION, GUARD_POSITION, GUARD_NEXT_POSITION, OBSTACLES
 
-            for i in range(guard_position[0], 0, -1):
-                key = f"{i - 1}_{guard_position[1]}"
-                print(key)
-                if [i - 1, guard_position[1]] == initial_guard_position:
-                    is_loop = True
-                    no_obstacle = False
-                    break
+    if (GUARD_POSITION[0], GUARD_POSITION[1] + 1) not in OBSTACLES:
+        GUARD_POSITION = [GUARD_POSITION[0], GUARD_POSITION[1] + 1]
+    else:
+        DIRECTION = "d"
+        GUARD_NEXT_POSITION = [GUARD_POSITION[0] + 1, GUARD_POSITION[1]]
 
-                if obstacles.get(key):
-                    direction = "r"
-                    guard_position = [i, guard_position[1]]
-                    guard_positions.add(f"{i}_{guard_position[1]}")
-                    map_guard_positions.append(guard_position)
-                    break
 
-                elif key not in guard_positions and i > 0:
-                    guard_position = [i - 1, guard_position[1]]
-                    guard_positions.add(key)
-                    map_guard_positions.append(guard_position)
+def down():
+    global DIRECTION, GUARD_POSITION, GUARD_NEXT_POSITION, OBSTACLES
 
-        elif direction == "r":
-            if guard_position[1] + 1 == no_of_columns:
-                exit_position = guard_position
-                no_obstacle = False
-                break
+    if (GUARD_POSITION[0] + 1, GUARD_POSITION[1]) not in OBSTACLES:
+        GUARD_POSITION = [GUARD_POSITION[0] + 1, GUARD_POSITION[1]]
+    else:
+        DIRECTION = "l"
+        GUARD_NEXT_POSITION = [GUARD_POSITION[0], GUARD_POSITION[1] - 1]
 
-            for i in range(guard_position[1] + 1, no_of_columns):
-                key = f"{guard_position[0]}_{i}"
-                print(key)
-                if [guard_position[0], i] == initial_guard_position:
-                    is_loop = True
-                    no_obstacle = False
-                    break
 
-                if obstacles.get(key):
-                    direction = "d"
-                    guard_position = [guard_position[0], i - 1]
-                    guard_positions.add(f"{guard_position[0]}_{i - 1}")
-                    map_guard_positions.append(guard_position)
-                    break
+def left():
+    global DIRECTION, GUARD_POSITION, GUARD_NEXT_POSITION, OBSTACLES
 
-                elif key not in guard_positions and i < no_of_columns:
-                    guard_position = [guard_position[0], i]
-                    guard_positions.add(key)
-                    map_guard_positions.append(guard_position)
+    if (GUARD_POSITION[0], GUARD_POSITION[1] - 1) not in OBSTACLES:
+        GUARD_POSITION = [GUARD_POSITION[0], GUARD_POSITION[1] - 1]
+    else:
+        DIRECTION = "u"
+        GUARD_NEXT_POSITION = [GUARD_POSITION[0] - 1, GUARD_POSITION[1]]
 
-        elif direction == "d":
-            if guard_position[0] + 1 == no_of_rows:
-                exit_position = guard_position
-                no_obstacle = False
-                break
 
-            for i in range(guard_position[0] + 1, no_of_rows):
-                key = f"{i}_{guard_position[1]}"
-                print(key)
-                if [i, guard_position[1]] == initial_guard_position:
-                    is_loop = True
-                    no_obstacle = False
-                    break
+def part_1():
+    global DIRECTION, INITIAL_GUARD_POSITION, GUARD_POSITION, GUARD_POSITIONS
 
-                if obstacles.get(key):
-                    direction = "l"
-                    guard_position = [i - 1, guard_position[1]]
-                    guard_positions.add(f"{i - 1}_{guard_position[1]}")
-                    map_guard_positions.append(guard_position)
-                    break
+    GUARD_POSITION = INITIAL_GUARD_POSITION
 
-                elif key not in guard_positions and i < no_of_rows:
-                    guard_position = [i, guard_position[1]]
-                    guard_positions.add(key)
-                    map_guard_positions.append(guard_position)
+    while (
+        0 <= GUARD_POSITION[0] < NO_OF_ROWS and 0 <= GUARD_POSITION[1] < NO_OF_COLUMNS
+    ):
+        GUARD_POSITIONS.add((GUARD_POSITION[0], GUARD_POSITION[1]))
 
-        elif direction == "l":
-            if guard_position[1] == 0:
-                exit_position = guard_position
-                no_obstacle = False
-                break
-
-            for i in range(guard_position[1], 0, -1):
-                key = f"{guard_position[0]}_{i - 1}"
-                print(key)
-                if [guard_position[0], i - 1] == initial_guard_position:
-                    is_loop = True
-                    no_obstacle = False
-                    break
-
-                if obstacles.get(key):
-                    direction = "u"
-                    guard_position = [guard_position[0], i]
-                    guard_positions.add(f"{guard_position[0]}_{i}")
-                    map_guard_positions.append(guard_position)
-                    break
-
-                elif key not in guard_positions and i > 0:
-                    guard_position = [guard_position[0], i - 1]
-                    guard_positions.add(key)
-                    map_guard_positions.append(guard_position)
-
-        counter += 1
-
-    print(f"map_guard_positions: {map_guard_positions}")
-
-    for each in map_guard_positions:
-        map[each[0]][each[1]] = "X"
-
-    for line in map:
-        print("".join(line))
-
-    print(f"Guard Positions: {sorted(guard_positions)}")
+        if DIRECTION == "u":
+            up()
+        elif DIRECTION == "r":
+            right()
+        elif DIRECTION == "d":
+            down()
+        elif DIRECTION == "l":
+            left()
 
     print("[+] Part One Solution")
-    print(f">>> Sum: {len(guard_positions)}")
-    print(f"Exit Position: {exit_position}")
-
-    return is_loop
+    print(f">>> Sum: {len(GUARD_POSITIONS)}")
 
 
-def part_2(
-    map, no_of_rows: int, no_of_columns: int, obstacles: dict, initial_guard_position
-):
-    # map[6][3] = "#"
-    i, j = 9, 7
-    obstacles[f"{i}_{j}"] = [i, j]
+def part_2():
+    global DIRECTION, INITIAL_GUARD_POSITION, GUARD_POSITION, GUARD_POSITIONS, NO_OF_ROWS, NO_OF_COLUMNS, GUARD_NEXT_POSITION
 
-    print(
-        part_1(
-            map,
-            no_of_rows,
-            no_of_columns,
-            obstacles,
-            initial_guard_position,
-        )
-    )
+    possible_positions_count = 0
+    possible_positions = []
 
-    # print("[+] Part Two Solution")
-    # print(f">>> Sum of middle values of valid updates: ")
+    for i in range(NO_OF_ROWS):
+        for j in range(NO_OF_COLUMNS):
+
+            if (i, j) in OBSTACLES:
+                continue
+
+            DIRECTION = "u"
+            GUARD_POSITION = INITIAL_GUARD_POSITION
+            GUARD_POSITIONS = set()
+
+            OBSTACLES.add((i, j))
+
+            while (
+                0 <= GUARD_POSITION[0] < NO_OF_ROWS
+                and 0 <= GUARD_POSITION[1] < NO_OF_COLUMNS
+            ):
+                if (GUARD_POSITION[0], GUARD_POSITION[1], DIRECTION) in GUARD_POSITIONS:
+                    possible_positions_count += 1
+                    possible_positions.append([i, j])
+                    break
+
+                GUARD_POSITIONS.add((GUARD_POSITION[0], GUARD_POSITION[1], DIRECTION))
+
+                if DIRECTION == "u":
+                    up()
+                elif DIRECTION == "r":
+                    right()
+                elif DIRECTION == "d":
+                    down()
+                elif DIRECTION == "l":
+                    left()
+
+            OBSTACLES.remove((i, j))
+
+    print("[+] Part Two Solution")
+    print(f">>> Possible Positions Count: {possible_positions_count}")
 
 
 def main():
-    with open("../inputs/Day 6: Guard Gallivant/sample-input.txt") as file:
-        map = []
-        obstacles = {}
-        initial_guard_position = []
+    with open("../inputs/Day 6: Guard Gallivant/input.txt") as file:
+        global MAP, NO_OF_COLUMNS, NO_OF_ROWS, OBSTACLES, INITIAL_GUARD_POSITION, GUARD_POSITION
 
-        for i, line in enumerate(file.read().splitlines()):
-            characters = []
+        MAP = file.read().splitlines()
+        NO_OF_ROWS = len(MAP)
+        NO_OF_COLUMNS = len(MAP[0])
+
+        for i, line in enumerate(MAP):
             for j, character in enumerate(line):
-                characters.append(character)
                 if character == "#":
-                    key = f"{i}_{j}"
-                    if not obstacles.get(key):
-                        obstacles[key] = [i, j]
-                    else:
-                        print(f"Duplicate Obstacle -> {key}: [{i}, {j}]")
+                    OBSTACLES.add((i, j))
                 if character == "^":
-                    initial_guard_position = [i, j]
+                    INITIAL_GUARD_POSITION = [i, j]
 
-            map.append(characters)
-
-        no_of_rows = len(map)
-        no_of_columns = len(map[0])
-
-        # print(obstacles)
-
-        part_1(
-            map,
-            no_of_rows,
-            no_of_columns,
-            obstacles,
-            initial_guard_position,
-        )
+        part_1()
         print()
-        # part_2(
-        #     map,
-        #     no_of_rows,
-        #     no_of_columns,
-        #     obstacles,
-        #     initial_guard_position,
-        # )
+        part_2()
 
 
 if __name__ == "__main__":
