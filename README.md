@@ -16,3 +16,4 @@ Here are my solutions for the Advent of Code 2024 Challenges.
 | 8   | [Day 8: Resonant Collinearity](https://adventofcode.com/2024/day/8) | [Solution](with_python/with_python/Day%208:%20Resonant%20Collinearity.py) | [Solution](with_rust/src/bin/day_8_resonant_collinearity.rs) |
 | 9   | [Day 9: Disk Fragmenter](https://adventofcode.com/2024/day/9)       | [Solution](with_python/with_python/Day%209:%20Disk%20Fragmenter.py)       | [Solution](with_rust/src/bin/day_9_disk_fragmenter.rs)       |
 | 10  | [Day 10: Hoof It](https://adventofcode.com/2024/day/10)             | [Solution](with_python/with_python/Day%2010:%20Hoof%20It.py)              | [Solution](with_rust/src/bin/day_10_hoof_it.rs)              |
+| 11  | [Day 11: Plutonian Pebbles](https://adventofcode.com/2024/day/11)   | [Solution](with_python/with_python/Day%2011:%20Plutonian%20Pebbles.py)    | [Solution](with_rust/src/bin/day_11_plutonian_pebbles.rs)    |
