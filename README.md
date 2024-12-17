@@ -15,3 +15,4 @@ Here are my solutions for the Advent of Code 2024 Challenges.
 | 7   | [Day 7: Bridge Repair](https://adventofcode.com/2024/day/7)         | [Solution](with_python/with_python/Day%207:%20Bridge%20Repair.py)         | [Solution](with_rust/src/bin/day_7_bridge_repair.rs)         |
 | 8   | [Day 8: Resonant Collinearity](https://adventofcode.com/2024/day/8) | [Solution](with_python/with_python/Day%208:%20Resonant%20Collinearity.py) | [Solution](with_rust/src/bin/day_8_resonant_collinearity.rs) |
 | 9   | [Day 9: Disk Fragmenter](https://adventofcode.com/2024/day/9)       | [Solution](with_python/with_python/Day%209:%20Disk%20Fragmenter.py)       | [Solution](with_rust/src/bin/day_9_disk_fragmenter.rs)       |
+| 10  | [Day 10: Hoof It](https://adventofcode.com/2024/day/10)             | [Solution](with_python/with_python/Day%2010:%20Hoof%20It.py)              | [Solution](with_rust/src/bin/day_10_hoof_it.rs)              |

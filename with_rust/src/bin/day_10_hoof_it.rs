@@ -17,7 +17,7 @@ fn get_next_positions(
     };
     let left: Option<[isize; 2]> = if j - 1 < 0 { None } else { Some([*i, j - 1]) };
     let right: Option<[isize; 2]> = if j + 1 < *no_of_columns {
-        Some([j + 1, *j])
+        Some([*i, j + 1])
     } else {
         None
     };
@@ -71,7 +71,7 @@ fn get_trailhead_rating_and_score(
             }
         }
 
-        positions = temp_positions
+        positions = temp_positions;
     }
 
     let rating: usize = positions.len();
@@ -84,7 +84,7 @@ fn get_trailhead_rating_and_score(
 fn main() {
     let total_time_taken_start: Instant = Instant::now();
 
-    let file: String = fs::read_to_string("../inputs/Day 10: Hoof It/sample-input.txt")
+    let file: String = fs::read_to_string("../inputs/Day 10: Hoof It/input.txt")
         .expect("Expecting a valid file.");
 
     let mut trailheads: Vec<(isize, isize)> = Vec::new();
