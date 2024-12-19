@@ -71,6 +71,7 @@ def caculate_perimeter(positions: set[tuple[int, int]]):
 
     return len(sides)
 
+
 # https://www.youtube.com/watch?v=iKCgjy7-2nY
 def caculate_sides(region: set[tuple[int, int]]):
     up, down, left, right = (set() for _ in range(4))
