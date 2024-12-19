@@ -18,3 +18,4 @@ Here are my solutions for the Advent of Code 2024 Challenges.
 | 10  | [Day 10: Hoof It](https://adventofcode.com/2024/day/10)             | [Solution](with_python/with_python/Day%2010:%20Hoof%20It.py)              | [Solution](with_rust/src/bin/day_10_hoof_it.rs)              |
 | 11  | [Day 11: Plutonian Pebbles](https://adventofcode.com/2024/day/11)   | [Solution](with_python/with_python/Day%2011:%20Plutonian%20Pebbles.py)    | [Solution](with_rust/src/bin/day_11_plutonian_pebbles.rs)    |
 | 12  | [Day 12: Garden Groups](https://adventofcode.com/2024/day/12)       | [Solution](with_python/with_python/Day%2012:%20Garden%20Groups.py)        | [Solution](with_rust/src/bin/day_12_garden_groups.rs)        |
+| 13  | [Day 13: Claw Contraption](https://adventofcode.com/2024/day/13)    | [Solution](with_python/with_python/Day%2013:%20Claw%20Contraption.py)     | [Solution](with_rust/src/bin/day_13_claw_contraption.rs)     |
