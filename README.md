@@ -19,3 +19,4 @@ Here are my solutions for the Advent of Code 2024 Challenges.
 | 11  | [Day 11: Plutonian Pebbles](https://adventofcode.com/2024/day/11)   | [Solution](with_python/with_python/Day%2011:%20Plutonian%20Pebbles.py)    | [Solution](with_rust/src/bin/day_11_plutonian_pebbles.rs)    |
 | 12  | [Day 12: Garden Groups](https://adventofcode.com/2024/day/12)       | [Solution](with_python/with_python/Day%2012:%20Garden%20Groups.py)        | [Solution](with_rust/src/bin/day_12_garden_groups.rs)        |
 | 13  | [Day 13: Claw Contraption](https://adventofcode.com/2024/day/13)    | [Solution](with_python/with_python/Day%2013:%20Claw%20Contraption.py)     | [Solution](with_rust/src/bin/day_13_claw_contraption.rs)     |
+| 14  | [Day 14: Restroom Redoubt](https://adventofcode.com/2024/day/14)    | [Solution](with_python/with_python/Day%2014:%20Restroom%20Redoubt.py)     | [Solution](with_rust/src/bin/day_14_restroom_redoubt.rs)     |
